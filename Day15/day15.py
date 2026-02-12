@@ -98,7 +98,7 @@ def dayFifteen2():
 def main():
     print("Hallo")
     print(dayFifteen(), "ist die Lösung von Teil 1")
-    #print(dayFifteen2(), "ist die Lösung von Teil 2")
+    print(dayFifteen2(), "ist die Lösung von Teil 2")
      
 if __name__=="__main__":
     main()
