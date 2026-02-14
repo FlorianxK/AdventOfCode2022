@@ -1,7 +1,7 @@
 from collections import deque
 from typing import *
 
-def dayTwentyTwo():
+def dayTwentyThree():
     elves = set()
     i = 0
     #read
@@ -83,7 +83,7 @@ def dayTwentyTwo():
 
     return (maxI-minI+1)*(maxJ-minJ+1)-len(elves)
 
-def dayTwentyTwo2():
+def dayTwentyThree2():
     elves = set()
     i = 0
     #read
@@ -160,8 +160,8 @@ def dayTwentyTwo2():
 
 def main():
     print("Hallo")
-    print(dayTwentyTwo(), "ist die Lösung von Teil 1")
-    print(dayTwentyTwo2(), "ist die Lösung von Teil 2")
-     
+    print(dayTwentyThree(), "ist die Lösung von Teil 1")
+    print(dayTwentyThree2(), "ist die Lösung von Teil 2")
+
 if __name__=="__main__":
     main()
