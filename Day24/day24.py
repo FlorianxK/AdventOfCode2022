@@ -38,6 +38,7 @@ def dayTwentyFour():
         return newTorn
 
     def movePlayer(i,j):
+        # 2 possiblities: deque (i,j,time) wait or move on possible next -> do bfs and pop and add pop and all free to queue until one reaches E
         pass
 
     minute = 0
