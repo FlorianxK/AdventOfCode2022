@@ -1,3 +1,4 @@
+from collections import deque
 from typing import *
 
 def dayTwentyFour():
@@ -37,30 +38,37 @@ def dayTwentyFour():
             newTorn.add( (ni,nj,comp) )
         return newTorn
 
-    def movePlayer(i,j):
+    def movePlayer(q):
         # 2 possiblities: deque (i,j,time) wait or move on possible next -> do bfs and pop and add pop and all free to queue until one reaches E
-        pass
+        newQ = deque([])
+        while q:
+            i,j,time = q.popleft()
+            #stand still if possible
+            if (i,j) not in tornados:
+                newQ.append( (i,j,time+1) )
+            #look if move possible
+            for di,dj in [(-1,0),(1,0),(0,-1),(0,1)]:
+                ni,nj = i+di,j+dj
+                if 0<=ni<m and 0 <=nj<n:
+                    #found end
+                    if arr[ni][nj] == 'E':
+                        return deque([(ni,nj,time+1)]),True
 
-    minute = 0
-    pos = start
+                    if arr[ni][nj] == '#' or (ni,nj) in tornados:
+                        continue
+                    
+                    newQ.append( (ni,nj,time+1) )
+                
+        return newQ,False
+
+    q = deque([(start[0],start[1],0)])
     while True:
-        minute += 1
-
-        for i,j,_ in tornados:
-            arr[i][j] = '.'
-
         tornados = moveTornado()
-        movePlayer(0,0)
+        q,found = movePlayer(q)
 
-        for i,j,comp in tornados:
-            arr[i][j] = comp
-
-        for a in arr:
-            print(''.join(a))
-        print()
-        if pos == end or minute == 5:
+        if found:
             break
-    return minute
+    return q[0][2]
 
 def dayTwentyFour2():
     pass
