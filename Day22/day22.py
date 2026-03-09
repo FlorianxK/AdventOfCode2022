@@ -116,8 +116,6 @@ def dayTwentyTwo2():
     pos = None
     n = 0
     i = 0
-    # right bottom left top
-    dirs = {0:(0,1),1:(1,0),2:(0,-1),3:(-1,0)}
     #read
     with open("Day22/22_2.txt") as file:
         for line in file:
@@ -182,98 +180,81 @@ def dayTwentyTwo2():
     cDir = 0
     for move in order:
         i,j = pos
-        # move like on a cube
         if type(move) == int:
-            di,dj = dirs[cDir]
-            # right left
-            if cDir == 0 or cDir == 2:
-                for _ in range(move):
-                    nextI = i
-                    nextJ = j + dj
-                    nextDir = cDir
-                    # right out
+            for _ in range(move):
+                nextI = i
+                nextJ = j
+                nextDir = cDir
+
+                if cDir == 0:  # right
+                    nextJ = j+1
                     if nextJ > rowsMod[i][1]:
-                        if 0<=i<50: #3-4
+                        if 0<=i<50: # 3-4
                             nextDir = 2
                             nextI,nextJ = 149-i,99
-                        elif 50<=i<100: #4
+                        elif 50<=i<100: # 4
                             nextDir = 3
                             nextI,nextJ = 49,i+50
-                        elif 100<=i<150: #4-3
+                        elif 100<=i<150: # 4-3
                             nextDir = 2
                             nextI,nextJ = 149-i,149
-                        elif 150<=i<200: #3
+                        elif 150<=i<200: # 3
                             nextDir = 3
                             nextI,nextJ = 149,i-100
-                    # left out
-                    elif nextJ < rowsMod[i][0]:
-                        if 0<=i<50: #1-2
+                elif cDir == 2:  # left
+                    nextJ = j-1
+                    if nextJ < rowsMod[i][0]:
+                        if 0<=i<50: # 1-2
                             nextDir = 0
                             nextI,nextJ = 149-i,0
-                        elif 50<=i<100: #2
+                        elif 50<=i<100: # 2
                             nextDir = 1
                             nextI,nextJ = 100,i-50
                         elif 100<=i<150: #2-1
                             nextDir = 0
                             nextI,nextJ = 149-i,50
-                        elif 150<=i<200: #1-5
+                        elif 150<=i<200: # 1-5
                             nextDir = 1
                             nextI,nextJ = 0,i-100
-
-                    # IF no rock
-                    if arr[nextI][nextJ] != '#':
-                        i = nextI
-                        j = nextJ
-                        cDir = nextDir
-                    else:
-                        break
-
-            # bottom top
-            elif cDir == 1 or cDir == 3:
-                for _ in range(move):
-                    nextI = i+di
-                    nextJ = j
-                    nextDir = cDir
-                    # bottom out
+                elif cDir == 1:  # down
+                    nextI = i+1
                     if nextI > colsMod[j][1]:
-                        if 0<=j<50: #5-3
+                        if 0<=j<50: # 5-3
                             nextDir = 1
                             nextI,nextJ = 0,j+100
-                        elif 50<=j<100: #3
+                        elif 50<=j<100: # 3
                             nextDir = 2
                             nextI,nextJ = j+100,49
-                        elif 100<=j<150: #4
+                        elif 100<=j<150: # 4
                             nextDir = 2
                             nextI,nextJ = j-50,99
-                        
-                    # top out
-                    elif nextI < colsMod[j][0]:
-                        if 0<=j<50: #2
+                elif cDir == 3:  # up
+                    nextI = i-1
+                    if nextI < colsMod[j][0]:
+                        if 0<=j<50: # 2
                             nextDir = 0
                             nextI,nextJ = j+50,50
-                        elif 50<=j<100: #1-5
+                        elif 50<=j<100: # 1-5
                             nextDir = 0
                             nextI,nextJ = j+100,0
-                        elif 100<=j<150: #5-3
+                        elif 100<=j<150: # 5-3
                             nextDir = 3
                             nextI,nextJ = 199,j-100
-                    
-                    # IF no rock
-                    if arr[nextI][nextJ] != '#':
-                        i = nextI
-                        j = nextJ
-                        cDir = nextDir
-                    else:
-                        break
+
+                # move if no wall
+                if arr[nextI][nextJ] != '#':
+                    i,j,cDir = nextI,nextJ,nextDir
+                else:
+                    break
         else:
             #L or R
             if move == 'R':
                 cDir = (cDir+1)%4
             elif move == 'L':
                 cDir = (cDir-1)%4
-        
+
         pos = (i,j)
-    
+
     return 1000*(pos[0]+1)+4*(pos[1]+1)+cDir
 
 def main():
